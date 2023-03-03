@@ -50,17 +50,17 @@ void Game::Run()
 	{
 		// create a shader
 		Graphics->CreateShader({
-			L"Game/Shaders/SimpleShader/SimpleShader.svert",
-			L"Game/Shaders/SimpleShader/SimpleShader.sfrag"
+			L"Game/Shaders/TextureShader/TextureShader.svert",
+			L"Game/Shaders/TextureShader/TextureShader.sfrag"
 			});
 		//create a VAOs
 		Graphics->CreateVAO(GeomatrixShapes::Triangle);
 		Graphics->CreateVAO(GeomatrixShapes::Polygon);
 	}
-	}
+	
 
 	// as long as the game is not over run the loop
-	while (!bIsGameOver)
+	while(!bIsGameOver)
 	{
 		//make sure we process waht the user has done
 		processInput();

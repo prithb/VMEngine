@@ -3,10 +3,10 @@
 
 const PositionMatrix TrianglePositions
 {
-	// x	//y		//z		//colour
-	-0.5f,	-0.5f,	0.0f,	1.0f, 0.0f, 0.0f,	// botton left
-	0.5f,	-0.5f,	0.0f,	0.0f, 1.0f, 0.0f,	// bottom right
-	0.0f,	 0.5f,	 0.0f,	0.0f, 0.0f, 1.0f	// top 
+	// x	//y		//z		//colour			//text coords
+	-0.5f,	-0.5f,	0.0f,	1.0f, 0.0f, 0.0f,	0.0f, 0.0f,	// botton left
+	0.5f,	-0.5f,	0.0f,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f,	// bottom right
+	0.0f,	 0.5f,	 0.0f,	0.0f, 0.0f, 1.0f,	0.5f, 1.0f	// top 
 
 };
 
@@ -17,11 +17,11 @@ const IndicesMatrix TriangleIndices
 
 const PositionMatrix PolyPositions
 {
-	// x	//y		//z		//colour
-	-0.5f,	-0.5f,	0.0f,	0.0f, 1.0f, 0.0f,		// botton left
-	0.5f,	-0.5f,	0.0f,	0.0f, 1.0f, 0.0f,		// bottom right
-	0.5f,	 0.5f,	 0.0f,	0.0f, 1.0f, 0.0f,		 // top right
-	-0.5f,	 0.5f,	0.0f,	0.0f, 1.0f, 0.0f		// top left
+	// x	//y		//z		//colour			// text coords
+	-0.5f,	-0.5f,	0.0f,	0.0f, 1.0f, 0.0f,	0.0f, 0.0f,		// botton left
+	0.5f,	-0.5f,	0.0f,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f,		// bottom right
+	0.5f,	 0.5f,	 0.0f,	0.0f, 1.0f, 0.0f,	1.0f, 1.0f,		 // top right
+	-0.5f,	 0.5f,	0.0f,	0.0f, 1.0f, 0.0f,	0.0f, 1.0f	// top left
 
 };
 
@@ -42,7 +42,7 @@ const PositionMatrix CirclePositions
 	0.3f,	-0.5f,	0.0f,
 	0.0f,	-0.575f,0.0f,
 	-0.3f,	-0.5f,	0.0f,
-	-0.5f,	-0.34,	0.0f,
+	-0.5f,	-0.34f,	0.0f,
 	-0.575f,-0.0f,	0.0f,
 	-0.5f,	0.3f,	0.0f,
 	-0.3f,	0.5f,	0.0f,

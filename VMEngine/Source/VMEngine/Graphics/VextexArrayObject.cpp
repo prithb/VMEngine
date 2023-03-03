@@ -64,7 +64,7 @@ VertexArrayObject::VertexArrayObject(GeomatrixShapes ChosenShape)
 		0,					// data set - 0= the first data set in the array
 		3,					// how many numbers in our matrix t ake a traingle
 		GL_FLOAT, GL_FALSE, // data type, whether you want to noralise the values
-		sizeof(float) * 3,	// stride - the length it tales to get to each number
+		sizeof(float) * 8,	// stride - the length it tales to get to each number
 		(void*)0			// offset of how many number to skip in the matrix
 	);
 
@@ -76,12 +76,24 @@ VertexArrayObject::VertexArrayObject(GeomatrixShapes ChosenShape)
 		1,
 		3,
 		GL_FLOAT, GL_FALSE,
-		sizeof(float) * 6,
+		sizeof(float) * 8,
 		(void*)( 3 * sizeof(float))
 	);
 
 	// enabe the colour array
-	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+
+	//assign the texture coordinates to the shader
+	glVertexAttribPointer(
+		2,
+		2,
+		GL_FLOAT, GL_FALSE,
+		sizeof(float) * 8,
+		(void*)(6 * sizeof(float))
+	);
+
+	// enabe the texture coordinate array
+	glEnableVertexAttribArray(2);
 
 	// clear the buffer
 	glBindVertexArray(0);

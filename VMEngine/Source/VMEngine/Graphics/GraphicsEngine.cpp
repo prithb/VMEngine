@@ -37,7 +37,7 @@ bool GraphicsEngine::InitGE(const char* Wtitle, bool bFullscreen, int WWidth, in
 
 	// use openGL 4.6 compatability and set default attributes
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -49,7 +49,7 @@ bool GraphicsEngine::InitGE(const char* Wtitle, bool bFullscreen, int WWidth, in
 
 	if (bFullscreen)
 	{
-		FullscreenFlag - SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN;
+		FullscreenFlag = SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN;
 	}
 
 	else
@@ -185,7 +185,7 @@ void GraphicsEngine::CreateShader(VFShaderParams ShaderFilePaths)
 void GraphicsEngine::HandleWireframeMode(bool bShowWireframeMode)
 {
 	// if we wireframe mode is set, change it, vice cersa
-	if (bShowWireframeMode != bWireframeMode);
+	if (bShowWireframeMode != bWireframeMode)
 	{
 		bWireframeMode = bShowWireframeMode;
 		

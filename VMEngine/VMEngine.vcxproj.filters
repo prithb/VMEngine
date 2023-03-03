@@ -55,7 +55,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Game\Shaders\SimpleShader\SimpleShader.svert" />
-    <None Include="Game\Shaders\SimpleShader\SimpleShader.sfrag" />
+    <None Include="Game\Shaders\VertexShader\VertexShader.svert" />
+    <None Include="Game\Shaders\VertexShader\VertexShader.sfrag" />
+    <None Include="Game\Shaders\TextureShader\TextureShader.svert" />
+    <None Include="Game\Shaders\TextureShader\TextureShader.sfrag" />
   </ItemGroup>
 </Project>
