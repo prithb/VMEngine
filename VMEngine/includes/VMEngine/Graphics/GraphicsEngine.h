@@ -25,12 +25,16 @@ public:
 	SDL_Window* GetWindow() const;
 
 	//add a new VAO to the VAOStack using a shape define
-	void CreateVAO(GeomatrixShapes Shape);
+	MeshPtr CreateSimpleMeshShape(GeomatricShapes Shape, ShaderPtr MeshShader, TexturePtrStack MeshTextures);
 
 	// add new shader
 	// @param 1 - vertex Shader
 	// @param 2 - fragment shader
-	void CreateShader(VFShaderParams ShaderFilePaths);
+	ShaderPtr CreateShader(VFShaderParams ShaderFilePaths);
+
+	//create texture and add it to the texture stack
+	// avoid Duplicate
+	TexturePtr CreateTexture(const char* FilePath);
 
 private:
 	// this will hold the window 
@@ -38,8 +42,6 @@ private:
 
 	// this will allow openGL to work in sdl
 	SDL_GLContext sdlGLContext;
-	// stack all the VAOs
-	VAOStack VAOs;
 	// handle wireframe mode
 	void HandleWireframeMode(bool bShowWireframeMode);
 	// set wireframe
@@ -47,4 +49,8 @@ private:
 
 	// single shader
 	ShaderPtr Shader;
+	//store a vector of textures
+	TexturePtrStack TextureStack;
+	//store all meshes in the game
+	MeshPtrStack MeshStack;
 };

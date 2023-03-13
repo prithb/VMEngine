@@ -1,7 +1,7 @@
 #include "VMEngine/Graphics/VextexArrayObject.h"
 #include "GL/glew.h"
 
-VertexArrayObject::VertexArrayObject(GeomatrixShapes ChosenShape)
+VertexArrayObject::VertexArrayObject(GeomatricShapes ChosenShape)
 {
 	ID = EAB = VAB = 0;
 
@@ -12,15 +12,15 @@ VertexArrayObject::VertexArrayObject(GeomatrixShapes ChosenShape)
 	// switch the chosen matrices depending on the selected geometry type
 	switch (ChosenShape)
 	{
-	case GeomatrixShapes::Triangle:
+	case GeomatricShapes::Triangle:
 		ChosenPosition = TrianglePositions;
 		ChosenIndices = TriangleIndices;
 		break;
-	case GeomatrixShapes::Polygon :
+	case GeomatricShapes::Polygon :
 		ChosenPosition = PolyPositions;
 		ChosenIndices = PolyIndices;
 		break;
-	case GeomatrixShapes::Circle:
+	case GeomatricShapes::Circle:
 		ChosenPosition = CirclePositions;
 		ChosenIndices = CircleIndices;
 		break;

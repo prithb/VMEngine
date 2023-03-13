@@ -33,30 +33,41 @@ const IndicesMatrix PolyIndices
 
 const PositionMatrix CirclePositions
 {
-	// x	//y		//z
-	0.0f,	0.575f,	0.0f,
-	0.3f,	0.5f,	0.0f,
-	0.5f,	0.3f,	0.0f,
-	0.575f,	0.0f,	0.0f,
-	0.5f,	-0.3f,	0.0f,
-	0.3f,	-0.5f,	0.0f,
-	0.0f,	-0.575f,0.0f,
-	-0.3f,	-0.5f,	0.0f,
-	-0.5f,	-0.34f,	0.0f,
-	-0.575f,-0.0f,	0.0f,
-	-0.5f,	0.3f,	0.0f,
-	-0.3f,	0.5f,	0.0f,
-	0.0f,	0.0f,	0.0f
+	// x	//y		//z		// colour				//text coord
+	0.0f,	0.575f,	0.0f,	1.0f,	0.0f,	0.0f,	0.0f,	0.0f,
+	0.3f,	0.5f,	0.0f,	0.0f,	1.0f,	0.5f,	0.0f,	0.0f,
+	0.5f,	0.3f,	0.0f,	1.0f,	0.0f,	1.0f,	0.0f,	0.0f,
+	0.575f,	0.0f,	0.0f,	0.0f,	1.0f,	1.0f,	0.0f,	0.0f,
+	0.5f,	-0.3f,	0.0f,	1.0f,	0.0f,	1.0f,	0.0f,	0.0f,
+	0.3f,	-0.5f,	0.0f,	0.0f,	0.5f,	1.0f,	0.0f,	0.0f,
+	0.0f,	-0.575f,0.0f,	0.5f,	0.0f,	1.0f,	0.0f,	0.0f,
+	-0.3f,	-0.5f,	0.0f,	0.0f,	0.0f,	0.5f,	0.0f,	0.0f,
+	-0.5f,	-0.3f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
+	-0.575f,-0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,	0.0f,
+	-0.5f,	0.3f,	0.0f,	0.0f,	0.5f,	0.0f,	0.0f,	0.0f,
+	-0.3f,	0.5f,	0.0f,	0.5f,	0.0f,	0.0f,	0.0f,	0.0f,
+	0.0f,	0.0f,	0.0f,	0.0f,	1.0f,	1.0f,	0.0f,	0.0f
 };
 const IndicesMatrix CircleIndices
 {
-	
+	0, 1, 12,
+	1, 2, 12,
+	2, 3, 12,
+	3, 4, 12,
+	4, 5, 12,
+	5, 6, 12,
+	6, 7, 12,
+	7, 8, 12,
+	8, 9, 12,
+	9, 10, 12,
+	10, 11, 12,
+	11, 0, 12
 };
 
 class VertexArrayObject
 {
 public:
-	VertexArrayObject(GeomatrixShapes ChosenShape);
+	VertexArrayObject(GeomatricShapes ChosenShape);
 	~VertexArrayObject();
 
 	void Draw();

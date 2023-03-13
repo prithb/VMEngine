@@ -25,7 +25,7 @@ public:
 	void BindTexture();
 
 	// assigns the televant data to the current loat texture
-	void ActivateTexture();
+	void ActivateTexture(vmuint Index);
 
 	// clear the texture in open gl
 	static void ResetTexture();

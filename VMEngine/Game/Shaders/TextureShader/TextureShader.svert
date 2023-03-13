@@ -1,4 +1,4 @@
-#version 460 core 
+#version 330
 
 layout(Location = 0) in vec3 InPosition; // get the 0 attrib pointer
 layout(location = 2) in vec2 InTextCoords; // get the 2 attrib pointer

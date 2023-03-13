@@ -1,6 +1,7 @@
 #include "VMEngine/Game.h"
 #include "VMEngine/Graphics/GraphicsEngine.h"
 
+
 Game& Game::GetGameInsatnce()
 {
 	static Game* GameInstance = new Game();
@@ -49,13 +50,18 @@ void Game::Run()
 	if (!bIsGameOver)
 	{
 		// create a shader
-		Graphics->CreateShader({
+		ShaderPtr TextureShader = Graphics->CreateShader({
 			L"Game/Shaders/TextureShader/TextureShader.svert",
 			L"Game/Shaders/TextureShader/TextureShader.sfrag"
 			});
+
+		// create textures
+		TexturePtr TConcrete = Graphics->CreateTexture("Game/Textures/ConcreteFloor.jpg");
+		TexturePtr TGrid = Graphics->CreateTexture("Game/Textures/ColourGrid.jpg");
+
 		//create a VAOs
-		Graphics->CreateVAO(GeomatrixShapes::Triangle);
-		Graphics->CreateVAO(GeomatrixShapes::Polygon);
+		Poly = Graphics->CreateSimpleMeshShape(GeomatricShapes::Polygon, TextureShader, { TConcrete });
+		Tri = Graphics->CreateSimpleMeshShape(GeomatricShapes::Triangle, TextureShader, { TGrid });
 	}
 	
 

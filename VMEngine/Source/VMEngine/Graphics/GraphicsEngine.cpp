@@ -1,9 +1,10 @@
 #include "VMEngine/Graphics/GraphicsEngine.h"
 #include "GL/glew.h"
-#include "VMEngine/Graphics/VextexArrayObject.h"
+#include "VMEngine/Graphics/Mesh.h"
 #include"VMEngine/Graphics/ShaderProgram.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "VMEngine/Graphics/Texture.h"
 
 
 GraphicsEngine::GraphicsEngine()
@@ -15,6 +16,15 @@ GraphicsEngine::GraphicsEngine()
 
 GraphicsEngine::~GraphicsEngine()
 {
+	// clear the mesh stack
+	MeshStack.clear();
+
+	//clear the shader
+	 Shader = nullptr;
+	
+	// remove texture from memory
+	TextureStack.clear();
+
 	// this will handle deleting the SDL window from the memory
 	SDL_DestroyWindow(sdlWindow);
 	// destroy the GL context from SDL
@@ -36,9 +46,9 @@ bool GraphicsEngine::InitGE(const char* Wtitle, bool bFullscreen, int WWidth, in
 	}
 
 	// use openGL 4.6 compatability and set default attributes
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -116,41 +126,11 @@ void GraphicsEngine::Draw()
 
 	HandleWireframeMode(false);
 
-	vmuint index = 0;
-	// todo: add anything that render between these two function
-	for (VAOPtr VAO : VAOs)
+	// run through each mesh and call its draw method
+	for (MeshPtr LMesh : MeshStack)
 	{
-		Shader->RunShader();
-
-		// move the object
-		glm::mat4 transform = glm::mat4(1.0f);
-
-		if (index == 0) // square
-		{
-			// move int the x, y or z direction based on the amount added
-			transform = glm::translate(transform, glm::vec3(0.5f, 0.0, 0.0f));
-			// radians is rotation amount
-			//vec3 is the direction to rotate in
-			transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-			transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 1.0f));
-		}
-		else if (index == 1) // triangle
-		{
-			transform = glm::translate(transform, glm::vec3(-0.5f, 0.0, 0.0f));
-			// x and y will work for out 2D shaped
-			// z must be larget than 0 or you wont see the object (1 is default)
-			transform = glm::scale(transform, glm::vec3(0.5f, 0.5f, 1.0f));
-		}
-
-		Shader->SetMat4("transform", transform);
-
-		// draw each VAO
-		VAO->Draw();
-
-		index++;
+		LMesh->Draw();
 	}
-
-	index = 0;
 
 	PresentGraphics();
 }
@@ -160,15 +140,23 @@ SDL_Window* GraphicsEngine::GetWindow() const
 	return sdlWindow;
 }
 
-void GraphicsEngine::CreateVAO(GeomatrixShapes Shape)
+MeshPtr GraphicsEngine::CreateSimpleMeshShape(GeomatricShapes Shape, ShaderPtr MeshShader, TexturePtrStack MeshTextures)
 {
-	// create a new VAO as a shared pointer
-	VAOPtr NewVAO = make_shared<VAO>(Shape);
-	//add it to the stack
-	VAOs.push_back(NewVAO);
+	// initialise a new mesh class
+	MeshPtr NewMesh = make_shared<Mesh>();
+
+	// make sure it worked
+	if (!NewMesh->CreateSimpleShape(Shape, MeshShader, MeshTextures))
+		return nullptr;
+
+	// add mesh into the stack of mesh to be rendered
+	MeshStack.push_back(NewMesh);
+
+	// return the new mesh
+	return NewMesh;
 }
 
-void GraphicsEngine::CreateShader(VFShaderParams ShaderFilePaths)
+ShaderPtr GraphicsEngine::CreateShader(VFShaderParams ShaderFilePaths)
 {
 	// create a new hader class
 	ShaderPtr NewShader = make_shared<ShaderProgram>();
@@ -179,7 +167,49 @@ void GraphicsEngine::CreateShader(VFShaderParams ShaderFilePaths)
 	// add the shader to our graphics engine
 	Shader = NewShader;
 
+	return NewShader;
+}
 
+TexturePtr GraphicsEngine::CreateTexture(const char* FilePath)
+{
+	TexturePtr NewTexture = nullptr;
+
+	// run through al the textures and check if one with the same path exists
+	for (TexturePtr TestTexture : TextureStack)
+	{
+		// if we fin texture with the same file path
+		if (TestTexture->GetFilePath() == FilePath)
+		{
+			// pass in the already reated texture
+			NewTexture = TestTexture;
+			cout << "Texture found! assigning current texture." << endl;
+			break;
+		}
+
+	}
+
+	// if there is no texture aready in existance
+	if (NewTexture != nullptr)
+	{
+		cout << "create a new texture ..." << endl;
+
+		// create a new teture as a shared_ptr
+		NewTexture = make_shared<Texture>();
+
+		// if the filer was found assign it to the texture stack
+		if (NewTexture->CreateTextureFromFilePath(FilePath))
+		{
+			cout << "Texture" 
+			<< NewTexture->GetID()
+				<< "creation success!addig to the texture stack" 
+				<< endl;
+
+			// add the texture to the texture stack
+			TextureStack.push_back(NewTexture);
+		}
+	}
+
+	return NewTexture;
 }
 
 void GraphicsEngine::HandleWireframeMode(bool bShowWireframeMode)

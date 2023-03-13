@@ -44,4 +44,10 @@ private:
 
 	// share pointer to the graphics of screen
 	GraphicsEnginePtr Graphics;
+
+	// temporary mesh variables
+	MeshPtr Tri;
+	MeshPtr Poly;
+
+
 };

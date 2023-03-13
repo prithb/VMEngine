@@ -14,10 +14,18 @@ typedef shared_ptr<GraphicsEngine> GraphicsEnginePtr;
 class VertexArrayObject;
 typedef VertexArrayObject VAO;
 typedef shared_ptr<VAO>VAOPtr;
-typedef vector<VAOPtr> VAOStack;
+
+
+class Texture;
+typedef shared_ptr<Texture> TexturePtr;
+typedef vector<TexturePtr> TexturePtrStack;
 
 class ShaderProgram;
 typedef shared_ptr<ShaderProgram> ShaderPtr;
+
+class Mesh;
+typedef shared_ptr<Mesh> MeshPtr;
+typedef vector<MeshPtr> MeshPtrStack;
 
 // useful for shape data and VAOs Matrices
 typedef vector<float> PositionMatrix;
@@ -31,7 +39,7 @@ struct ShapeData
 };
 
 // a list of the geomatrix shapes available in VAO
-enum class GeomatrixShapes
+enum class GeomatricShapes
 {
 	Triangle = 0,
 	Polygon,
