@@ -24,6 +24,11 @@ VertexArrayObject::VertexArrayObject(GeomatricShapes ChosenShape)
 		ChosenPosition = CirclePositions;
 		ChosenIndices = CircleIndices;
 		break;
+
+	case GeomatricShapes::Cube:
+		ChosenPosition = CubePositions;
+		ChosenIndices = CubeIndicies;
+		break;
 	default:
 		break;
 	}

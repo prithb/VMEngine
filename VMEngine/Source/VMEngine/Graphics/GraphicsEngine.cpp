@@ -12,6 +12,7 @@ GraphicsEngine::GraphicsEngine()
 	sdlWindow = nullptr;
 	sdlGLContext = NULL;
 	bWireframeMode = false;
+	EngineDefaultCam = Vector3(0.0f, 0.0f, -2.0f);
 }
 
 GraphicsEngine::~GraphicsEngine()
@@ -102,6 +103,9 @@ bool GraphicsEngine::InitGE(const char* Wtitle, bool bFullscreen, int WWidth, in
 		return false;
 	}
 
+	// enable 3D depth
+	glEnable(GL_DEPTH_TEST);
+
 	return true;
 }
 
@@ -117,7 +121,7 @@ void GraphicsEngine::CLearGraphics()
 	glClearColor(0.23f, 0.38f, 0.47f, 1.0f);
 
 	//clear the screen
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GraphicsEngine::Draw()
@@ -189,7 +193,7 @@ TexturePtr GraphicsEngine::CreateTexture(const char* FilePath)
 	}
 
 	// if there is no texture aready in existance
-	if (NewTexture != nullptr)
+	if (NewTexture == nullptr)
 	{
 		cout << "create a new texture ..." << endl;
 
@@ -210,6 +214,33 @@ TexturePtr GraphicsEngine::CreateTexture(const char* FilePath)
 	}
 
 	return NewTexture;
+}
+
+void GraphicsEngine::ApplyScreenTransformations(ShaderPtr Shader)
+{
+	// the angle of the camera planes - basically your zoom
+	float FOV = 70.0f;
+	// view position of the camera / view space
+	Vector3 ViewPosition = EngineDefaultCam;
+	// find the size of the screen and calculate the aspect ratio
+	int WWidth, WHeight = 0;
+	// use the sdl to get the size of the window 
+	SDL_GetWindowSize(sdlWindow , &WWidth, &WHeight);
+	// calculate the aspect ratio from the window size
+	float AR = static_cast<float> (WWidth) / static_cast<float>(max(WHeight, 1));
+
+	// create the default coordinates for the projection and view
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+
+	//update the coordinates for 3D
+	view = glm::translate(view, ViewPosition);
+	// create the prospective view to allow us to see in 3D
+	// also adjusting the near and far clip
+	projection = glm::perspective(glm::radians(FOV), AR, 0.01f, 1000.0f);
+
+	Shader->SetMat4("view", view);
+	Shader->SetMat4("projection", projection);
 }
 
 void GraphicsEngine::HandleWireframeMode(bool bShowWireframeMode)

@@ -2,10 +2,14 @@
 #include "VMEngine/Graphics/ShaderProgram.h"
 #include "VMEngine/Graphics/Texture.h"
 #include "VMEngine/Graphics/VextexArrayObject.h"
+#include "glm/gtc/matrix_transform.hpp"
+#include "VMEngine/Game.h"
+#include "VMEngine/Graphics/GraphicsEngine.h"
 
 Mesh::Mesh()
 {
 	cout << "Mesh | initialised Mesh." << endl;
+
 }
 
 Mesh::~Mesh()
@@ -55,6 +59,32 @@ void Mesh::Draw()
 		// binding the texture to the shader
 		MeshTextures[Index]->BindTexture();
 	}
+
+	// initialise the static variabe to check if any change to transform
+	static CTransform OldTransform;
+
+	if (Transform != OldTransform)
+	{
+		OldTransform = Transform;
+
+		glm::mat4 MatTransform = glm::mat4(1.0f);
+
+		// translate - rotate - scale ---- in this order
+		// translate
+		MatTransform = glm::translate(MatTransform, Transform.Location);
+		// rotate
+		MatTransform = glm::rotate(MatTransform, glm::radians(Transform.Rotation.x), Vector3(1.0f, 0.0f, 0.0f));
+		MatTransform = glm::rotate(MatTransform, glm::radians(Transform.Rotation.y), Vector3(0.0f, 1.0f, 0.0f));
+		MatTransform = glm::rotate(MatTransform, glm::radians(Transform.Rotation.z), Vector3(0.0f, 0.0f, 1.0f));
+		//scale
+		MatTransform = glm::scale(MatTransform, Transform.Scale);
+
+		// update the shader with the new transform
+		MeshShader->SetMat4("model", MatTransform);
+
+	}
+
+	Game::GetGameInsatnce().GetGraphicsEngine()->ApplyScreenTransformations(MeshShader);
 
 	//draw the vao
 	MeshVAO->Draw();

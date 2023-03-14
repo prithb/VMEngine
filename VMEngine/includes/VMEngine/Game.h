@@ -1,7 +1,7 @@
 #pragma once
 #include "VMEngine/CoreMinimal.h"
 
-
+class Input;
 
 class Game
 {
@@ -15,6 +15,17 @@ public: // Get the game instance or create one if it doesn't exist
 	// load the window
 	void start(const char* Wtitle, bool bFullscreen, int WWidth, int WHeight);
 
+	// get precise delta time
+	double GetFDeltaTime() { return  DeltaTime; }
+
+	// // get less precise delta time
+	float GetDFeltaTime() { return static_cast<float>(DeltaTime); }
+
+	//return the graphics engine
+	GraphicsEnginePtr GetGraphicsEngine() const { return Graphics; }
+
+	// set the BIsGameOver is true
+	void ClosingApp() { bIsGameOver = true;  }
 
 private:
 	Game();
@@ -38,6 +49,8 @@ private:
 	// handle anything that need to be deleted when the game ends
 	void CloseGame();
 
+
+
 private:
 	// boolean that ends the game
 	bool bIsGameOver;
@@ -45,9 +58,15 @@ private:
 	// share pointer to the graphics of screen
 	GraphicsEnginePtr Graphics;
 
+	// the time between each frame
+	double DeltaTime;
+
+	// read the inout of the player
+	Input* GameInput;
+
 	// temporary mesh variables
 	MeshPtr Tri;
 	MeshPtr Poly;
-
+	MeshPtr Poly2;
 
 };

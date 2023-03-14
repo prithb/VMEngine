@@ -43,7 +43,8 @@ enum class GeomatricShapes
 {
 	Triangle = 0,
 	Polygon,
-	Circle
+	Circle,
+	Cube
 };
 
 // store the parameter required to create shader program

@@ -1,5 +1,6 @@
 #pragma once
 #include "VMEngine/CoreMinimal.h"
+#include "VMEngine/Math/Transformations.h"
 
 class Mesh
 {
@@ -12,6 +13,9 @@ public:
 
 	// handle the drawing of all the required classes
 	void Draw();
+
+	// this holds the position, rotation and scale of the mesh
+	CTransform Transform;
 
 private:
 	//store the shader this mesh requires
